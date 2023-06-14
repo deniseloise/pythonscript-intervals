@@ -6,9 +6,9 @@ from email.message import EmailMessage
 
 def sendIntervalsEmail():
     try:
-        email_sender = ""
-        email_password = ""
-        email_receiver = ""
+        email_sender = "testpythonautomation2@gmail.com"
+        email_password = "kovpelxfvrxnqdlr"
+        email_receiver = "dconcio@yondu.com"
 
         #timestamp
         timenow = str(datetime.datetime.now().strftime("%b_%d_%Y-%I_%M_%p"))

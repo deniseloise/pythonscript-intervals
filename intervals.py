@@ -15,6 +15,7 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from readtestdata import CsvRead
 from sendEmail import *
+from decouple import config
 
 def fileIntervals():
 
@@ -109,6 +110,17 @@ def fileIntervals():
         clientElem.select_by_visible_text('MTS')
     except NoSuchElementException as exception:
         print('An Error Occured: Client Dropdown Element Not Found.', type(exception).__name__, "-", exception)
+
+    #Select Project
+    driver.implicitly_wait(10)  # seconds
+    try:
+        ModuleElem = Select(WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, 'add_time_list_projects'))
+        ))
+        #select by select_by_visible_text() method
+        ModuleElem.select_by_visible_text('MTS_GoRaffle')
+    except NoSuchElementException as exception:
+        print('An Error Occured: Module Dropdown Element Not Found.', type(exception).__name__, "-", exception)
 
     #Select Module
     driver.implicitly_wait(10)  # seconds
