@@ -3,12 +3,14 @@
 
 import datetime, ssl, smtplib
 from email.message import EmailMessage
+from decouple import config
 
 def sendIntervalsEmail():
     try:
-        email_sender = "testpythonautomation2@gmail.com"
-        email_password = "kovpelxfvrxnqdlr"
-        email_receiver = "dconcio@yondu.com"
+
+        email_sender = config('email_sender', default='')
+        email_password = config('email_password', default='')
+        email_receiver = config('email_receiver', default='')
 
         #timestamp
         timenow = str(datetime.datetime.now().strftime("%b_%d_%Y-%I_%M_%p"))

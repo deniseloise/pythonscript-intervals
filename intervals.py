@@ -32,9 +32,13 @@ def fileIntervals():
     #find username textfield and input valid username
     driver.implicitly_wait(10)  # seconds
     try:
-        test_data = CsvRead('intervals_accounts.csv').read()
+        #test_data = CsvRead('intervals_accounts.csv').read()
         #store username
-        username_testdata = test_data['username']
+        #username_testdata = test_data['username']
+
+        #Get username from .env file
+        username_testdata = config('username_intervals', default='')
+
         print("CHECK: Username is " + str(username_testdata))
 
         usernameElem = WebDriverWait(driver, 10).until(
@@ -45,12 +49,16 @@ def fileIntervals():
         print('An Error Occurred: Username Textfield Element Not Found.', type(exception).__name__, "-", exception)
         
 
-    # Find username textfield and input valid password
+    # Find password textfield and input valid password
     driver.implicitly_wait(10)  # seconds
     try:
-        test_data = CsvRead('intervals_accounts.csv').read()
+        #test_data = CsvRead('intervals_accounts.csv').read()
         #store password
-        password_testdata = test_data['password']
+        #password_testdata = test_data['password']
+        
+        #Get password from .env file
+        password_testdata = config('password_intervals', default='')
+        
         print("CHECK: Password is " + str(password_testdata))
 
         passwordElem = WebDriverWait(driver, 10).until(
@@ -148,9 +156,13 @@ def fileIntervals():
     # Input Description of Work in Textarea
     driver.implicitly_wait(10)  # seconds
     try:
-        test_data = CsvRead('intervals_accounts.csv').read()
+        #test_data = CsvRead('intervals_accounts.csv').read()
         #store password
-        taskdescription_testdata = test_data['description']
+        #taskdescription_testdata = test_data['description']
+
+        #Get task description from .env file
+        taskdescription_testdata = config('description', default='')
+
         print("CHECK: Task/s: " + str(taskdescription_testdata))
 
         descriptionElem = WebDriverWait(driver, 10).until(
