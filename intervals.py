@@ -206,7 +206,3 @@ def fileIntervals():
     # Timestamp - Completed
     print('The script completed at ' + str(datetime.datetime.now()))
     
-
-
-
-

@@ -19,4 +19,5 @@ if datetime.today().isoweekday() == 5:
     intervals.fileIntervals()
 else:
     print("Today is:", datetime.today().strftime('%A'))
-    intervals.fileIntervals()
+    #intervals.fileIntervals()
+    intervals.Hello_World()
