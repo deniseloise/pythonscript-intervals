@@ -1,5 +1,5 @@
 from sendEmail import *
-import intervals
+import intervals_functions
 
 # call sendIntervalsEmail
-intervals.fileIntervals()
+intervals_functions.fileIntervals()

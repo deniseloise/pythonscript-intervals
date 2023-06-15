@@ -11,13 +11,14 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from readtestdata import CsvRead
-import intervals
+import intervals_functions
+import file_multiple_intervals
 
 # If today is Friday (1 = Mon, 2 = Tue, 3 = Wen ...)
 if datetime.today().isoweekday() == 5:
     print("Yes, Today is Friday")
-    intervals.fileIntervals()
+    intervals_functions.fileIntervals()
 else:
     print("Today is:", datetime.today().strftime('%A'))
     #intervals.fileIntervals()
-    intervals.Hello_World()
+    file_multiple_intervals.file_multiple_entries()

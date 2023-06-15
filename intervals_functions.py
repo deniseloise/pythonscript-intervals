@@ -16,8 +16,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 from readtestdata import CsvRead
 from sendEmail import *
 from decouple import config
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
-def fileIntervals():
+
+options = webdriver.ChromeOptions()
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()),options=options)
+wait = WebDriverWait(driver, 10)
+
+def old_fileIntervals():
 
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -205,4 +213,84 @@ def fileIntervals():
 
     # Timestamp - Completed
     print('The script completed at ' + str(datetime.datetime.now()))
-    
+
+def intervals_login():
+    driver.get('https://yondutech.intervalsonline.com/')
+    driver.maximize_window()
+
+    #Timestamp - Start
+    print('The script run at ' + str(datetime.datetime.now()))
+
+    #Login Scenario
+    #find username textfield and input valid username
+    driver.implicitly_wait(10)  # seconds
+    try:
+        #test_data = CsvRead('intervals_accounts.csv').read()
+        #store username
+        #username_testdata = test_data['username']
+
+        #Get username from .env file
+        username_testdata = config('username_intervals', default='')
+
+        print("CHECK: Username is " + str(username_testdata))
+
+        usernameElem = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, 'username'))
+        )
+        usernameElem.send_keys(username_testdata)
+    except NoSuchElementException as exception:
+        print('An Error Occurred: Username Textfield Element Not Found.', type(exception).__name__, "-", exception)
+        
+
+    # Find password textfield and input valid password
+    driver.implicitly_wait(10)  # seconds
+    try:
+        #test_data = CsvRead('intervals_accounts.csv').read()
+        #store password
+        #password_testdata = test_data['password']
+        
+        #Get password from .env file
+        password_testdata = config('password_intervals', default='')
+        
+        print("CHECK: Password is " + str(password_testdata))
+
+        passwordElem = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, 'password'))
+        )
+        passwordElem.send_keys(password_testdata)
+    except NoSuchElementException as exception:
+        print('An Error Occured: Password Textfield Element Not Found.', type(exception).__name__, "-", exception)
+
+    # Find Login Button and submit
+    driver.implicitly_wait(10)  # seconds
+    try:
+        submitElem = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, 'f_regular_submit')))
+        submitElem.click()
+    except NoSuchElementException as exception:
+        print('An Error Occured: Login/Submit Button Element not found.', type(exception).__name__, "-", exception)
+
+def hover_over_link_text_element_then_click(element_hover_locator, element_to_click_locator):
+    #object of ActionChains
+    action_hover = ActionChains(driver)
+    #identify element
+    element_to_hover = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.LINK_TEXT, element_hover_locator)))
+    #hover over element
+    action_hover.move_to_element(element_to_hover).perform()
+    #identify sub menu element
+    element_to_click = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.LINK_TEXT, element_to_click_locator)))
+    # hover over element and click
+    action_hover.move_to_element(element_to_click).click().perform()
+
+def sendkeys_dropdown(element_dropdown_xpath,element_dropdown_search, client_type):
+    try:
+        wait.until(EC.presence_of_element_located((By.XPATH, element_dropdown_xpath))).click()
+        wait.until(EC.presence_of_element_located((By.XPATH, element_dropdown_search))).send_keys(client_type)
+        wait.until(EC.presence_of_element_located((By.XPATH, element_dropdown_search))).send_keys(Keys.RETURN)
+    except NoSuchElementException as exception:
+        print('An Error Occured: Client Type Dropdown Element Not Found.', type(exception).__name__, "-", exception)
+
+def copy_hours(element_timebox):
+    wait.until(EC.presence_of_element_located((By.XPATH, element_timebox))).click()

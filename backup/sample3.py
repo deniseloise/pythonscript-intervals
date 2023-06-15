@@ -1,4 +1,4 @@
-from intervals import *
+from intervals_functions import *
 
 # call fileIntervals function
-fileIntervals()
+intervals_functions.fileIntervals()
