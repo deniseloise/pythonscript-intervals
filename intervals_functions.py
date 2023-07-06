@@ -284,7 +284,7 @@ def hover_over_link_text_element_then_click(element_hover_locator, element_to_cl
     # hover over element and click
     action_hover.move_to_element(element_to_click).click().perform()
 
-def sendkeys_dropdown(element_dropdown_xpath,element_dropdown_search, client_type):
+def send_keys_dropdown(element_dropdown_xpath,element_dropdown_search, client_type):
     try:
         wait.until(EC.presence_of_element_located((By.XPATH, element_dropdown_xpath))).click()
         wait.until(EC.presence_of_element_located((By.XPATH, element_dropdown_search))).send_keys(client_type)
@@ -292,5 +292,39 @@ def sendkeys_dropdown(element_dropdown_xpath,element_dropdown_search, client_typ
     except NoSuchElementException as exception:
         print('An Error Occured: Client Type Dropdown Element Not Found.', type(exception).__name__, "-", exception)
 
-def copy_hours(element_timebox):
-    wait.until(EC.presence_of_element_located((By.XPATH, element_timebox))).click()
+def copy_hours(time_textbox,work_hours,textarea_field,description):
+    try:
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, time_textbox))).click()
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, time_textbox))).send_keys(work_hours)
+        wait.until(EC.presence_of_element_located((By.XPATH, textarea_field))).click()
+        wait.until(EC.presence_of_element_located((By.XPATH, textarea_field))).send_keys(description)
+    except NoSuchElementException as exception:
+        print('An Error Occured: Time Textbox Element Not Found.', type(exception).__name__, "-", exception)
+    
+    #click copy button 4 times
+    # while loop
+    try:
+        count = 0
+        while (count < 4):
+            count = count + 1
+            wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'i.sprites.iconCopyRight.mr10'))).click()
+            pass
+    except NoSuchElementException as exception:
+        print('An Error Occured: Copy Button Element Not Found.', type(exception).__name__, "-", exception)
+
+def scroll_to_element_click(save_time_entries_button):
+    try:
+        js_code = "arguments[0].scrollIntoView();"
+        element = driver.find_element(By.CSS_SELECTOR, save_time_entries_button)
+        driver.execute_script(js_code, element)
+        element.click()
+        
+    except NoSuchElementException as exception:
+        print('An Error Occured: Save Time Entries Button Element Not Found.', type(exception).__name__, "-", exception)
+
+def submit_for_approval(submit_button):
+    try:
+        driver.implicitly_wait(10)  # seconds
+        wait.until(EC.presence_of_element_located((By.XPATH, submit_button))).click()
+    except NoSuchElementException as exception:
+        print('An Error Occured: Submit for Approval Button Element Not Found.', type(exception).__name__, "-", exception)
